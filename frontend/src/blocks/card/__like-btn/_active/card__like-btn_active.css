@@ -1,0 +1,8 @@
+.card__like-btn_active {
+  background: url(../../../../images/like-active.svg) center no-repeat;
+}
+
+.card__like-btn_active:hover {
+  cursor: pointer;
+  opacity: 1;
+}

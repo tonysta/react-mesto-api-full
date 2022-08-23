@@ -1,0 +1,7 @@
+.viewer__container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+}
