@@ -94,9 +94,8 @@ class Api {
 }
 
 export const api = new Api({
-    url: 'http://localhost:3000/',
+    url: 'https://mesto15.nomoredomains.sbs/api/',
     headers: {
-        // 'authorization': '8357035a-bce9-4448-9840-71df6831b184',
         'content-type': 'application/json'
     }
 });
