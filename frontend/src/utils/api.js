@@ -94,7 +94,7 @@ class Api {
 }
 
 export const api = new Api({
-    url: 'https://mesto15.nomoredomains.sbs/api/',
+    url: 'https://api.mesto15.nomoredomains.sbs/',
     headers: {
         'content-type': 'application/json'
     }
