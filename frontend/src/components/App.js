@@ -31,10 +31,20 @@ function App() {
 
 
   useEffect(function () {
-    api.getProfileInfo().then((userInfo) => {
-      setCurrentUser(userInfo);
-    }).catch((err) => { console.log(err) });
-  }, []);
+    if (loggedIn) {
+      api.getProfileInfo().then((userInfo) => {
+        setCurrentUser(userInfo);
+      }).catch((err) => { console.log(err) });
+    }
+  }, [loggedIn]);
+
+  useEffect(function () {
+    if (loggedIn) {
+      api.getCards().then((cards) => {
+        setCards(cards);
+      }).catch((err) => { console.log(err) });
+    }
+  }, [loggedIn]);
 
   useEffect(function () {
     tokenCheck();
@@ -45,7 +55,7 @@ function App() {
     if (token) {
       checkToken(token).then((res) => {
         const userData = {
-          email: res.data.email
+          email: res.email
         };
         setUserData(userData);
         setLoggedIn(true);
@@ -98,15 +108,9 @@ function App() {
     }).catch((err) => { console.log(err) });
   }
 
-  useEffect(function () {
-    api.getCards().then((cards) => {
-      setCards(cards);
-    }).catch((err) => { console.log(err) });
-  }, []);
-
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
