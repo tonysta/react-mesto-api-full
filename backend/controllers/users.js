@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -5,11 +6,11 @@ const { NotFoundError } = require('../utils/errors/notFound');
 const { ConflictError } = require('../utils/errors/conflictError');
 const { BadRequestError } = require('../utils/errors/badRequestError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({
-      data: users,
-    }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
@@ -18,7 +19,7 @@ module.exports.getUserMe = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -33,7 +34,7 @@ module.exports.getUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -80,7 +81,7 @@ module.exports.updateUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -97,7 +98,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -114,7 +115,7 @@ module.exports.login = (req, res, next) => {
       if (user) {
         const token = jwt.sign(
           { _id: user._id },
-          'some-secret-key',
+          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
           { expiresIn: '7d' },
         );
         res.send({ token });

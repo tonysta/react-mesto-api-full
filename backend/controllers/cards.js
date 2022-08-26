@@ -5,9 +5,7 @@ const { ForbiddenError } = require('../utils/errors/forbiddenError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({
-      data: cards,
-    }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -23,9 +21,7 @@ module.exports.createCard = (req, res, next) => {
     link,
     owner: userId,
   })
-    .then((card) => res.send({
-      data: card,
-    }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -65,7 +61,7 @@ module.exports.likeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такой карточки не существует');
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
@@ -90,7 +86,7 @@ module.exports.dislikeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такой карточки не существует');
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Объект не найден или данные не валидны'));
