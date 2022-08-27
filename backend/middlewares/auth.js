@@ -19,6 +19,8 @@ module.exports = (req, res, next) => {
     next(new UnauthorizedError('Необходима авторизация 1'));
   }
 
+  console.log(NODE_ENV, JWT_SECRET);
+
   req.user = payload; // записываем пейлоуд в объект запроса
 
   return next(); // пропускаем запрос дальше

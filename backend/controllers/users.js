@@ -118,6 +118,7 @@ module.exports.login = (req, res, next) => {
           NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
           { expiresIn: '7d' },
         );
+        console.log(NODE_ENV, JWT_SECRET);
         res.send({ token });
       }
     })
