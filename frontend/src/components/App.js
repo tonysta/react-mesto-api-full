@@ -67,6 +67,11 @@ function App() {
   function handleLogin() {
     setLoggedIn(true)
   }
+  function handleSignOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setUserData(null);
+  }
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -135,7 +140,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="background">
         <div className="page">
-          <Header userData={userData} />
+          <Header userData={userData} handleSignOut={handleSignOut} />
           <Routes>
             <Route path="/" element={
               <ProtectedRoute loggedIn={loggedIn}>

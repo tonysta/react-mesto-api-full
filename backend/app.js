@@ -55,13 +55,13 @@ app.use(auth);
 app.use('/users', usersRoute);
 app.use('/cards', cardsRoute);
 
-app.use(errorLogger); // подключаем логгер ошибок
-
-app.use(errors());
-
 app.use((req, res, next) => {
   next(new NotFoundError('Cтраницы не существует'));
 });
+
+app.use(errorLogger); // подключаем логгер ошибок
+
+app.use(errors());
 
 app.use(handleError);
 
